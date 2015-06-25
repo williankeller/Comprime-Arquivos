@@ -1,11 +1,37 @@
-### Compressão de Arquivos
+#Definições Básicas de Uso
 
-**Instanciando a Classe de Compressão**
+##Instanciando a Classe de Compressão
 ```php
 $compressao = new Compressao();
 ```
 
-**Definindo a Pasta padão dos arquivo de entrada** ***(opcional)***
+##Imprimindo o conteúdo inline
+Incluindo arquivos JavaScript usando `array`
+```php
+$compressao->incluir('js', array('js/jquery.min', 'js/exemplo'));
+```
+
+##Imprimindo o conteúdo inline
+Incluindo arquivos JavaScript usando `string`
+```php
+$compressao->incluir('css', 'css/bootstrap;css/exemplo');
+```
+
+##Imprimindo o conteúdo usando parâmetros da URL
+ * Uso da função `buscaTipo()` para recuperar o tipo de arquivo na URL
+ * Uso da função `buscaArquivos()` para recuperar os arquivos passados na URL
+
+**Ex.:** `comprime.php?tipo=css&arquivos=css/bootstrap;css/exemplo`
+```php
+$compressao->incluir($compressao->buscaTipo(), $compressao->buscaArquivos());
+```
+A função `buscaTipo()` será responsável por recuperar o valor passado pelo parâmetro `tipo`
+A função `buscaArquivos()` será responsável por recuperar o valor passado pelo parâmetro `arquivos`
+
+
+#Definições Opcionais de Uso
+
+###Definindo a pasta padrão dos arquivo de entrada ***(opcional)***
 ```php
 /*
  * @default recursos/
@@ -14,7 +40,7 @@ $compressao = new Compressao();
 $compressao->pasta = "/projetos/recursos/";
 ```
 
-**Definindo o nome do parâmetro que será resgatado na URL para identificar o tipo do arquivo** ***(opcional)***
+###Definindo o nome do parâmetro na URL para identificar o tipo do arquivo ***(opcional)***
 ```php
 /*
  * @default "tipo"
@@ -23,7 +49,7 @@ $compressao->pasta = "/projetos/recursos/";
 $compressao->buscaTipo = "tipo";
 ```
 
-**Definindo o nome do parâmetro que será resgatado na URL para identificar os arquivos** ***(opcional)***
+###Definindo o nome do parâmetro na URL para identificar os arquivos ***(opcional)***
 ```php
 /*
  * @default "arquivos"
@@ -32,7 +58,7 @@ $compressao->buscaTipo = "tipo";
 $compressao->buscaArquivos = "arquivos";
 ```
 
-**Definindo se o conteúdo deve ou não ser comprimido** ***(opcional)***
+###Definindo se o conteúdo deve ou não ser comprimido ***(opcional)***
 ```php
 /*
  * @default true
@@ -42,7 +68,7 @@ $compressao->buscaArquivos = "arquivos";
 $compressao->arquivoComprime = true;
 ```
 
-**Definindo se o termo do nome do arquivo para que ele seja ignorado** ***(opcional)***
+###Definindo o termo no arquivo para que ele seja ignorado ***(opcional)***
 ```php
 /*
  * @default ".min"
@@ -52,7 +78,7 @@ $compressao->arquivoComprime = true;
 $compressao->ignorar = '.min';
 ```
 
-**Definindo se o valor da entrada deve ser do tipo array ou varchar** ***(opcional)***
+###Definindo se a entrada deve ser do tipo `array` ou `varchar` ***(opcional)***
 ```php
 /*
  * @default true
@@ -62,7 +88,7 @@ $compressao->ignorar = '.min';
 $compressao->modoArray = true;
 ```
 
-**Definindo o modo de separação dos arquivos** ***(opcional)***
+###Definindo o modo de separação dos arquivos ***(opcional)***
 ```php
 /*
  * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
@@ -73,7 +99,7 @@ $compressao->modoArray = true;
 $compressao->modoSeparador = ";";
 ```
 
-**Definiendo o retorno deve ser cacheado em browser ou não** ***(opcional)***
+###Definindo se o retorno deve ser cacheado em `browser` ou não ***(opcional)***
 ```php
 /*
  * @default false
@@ -83,7 +109,7 @@ $compressao->modoSeparador = ";";
 $compressao->cacheavel = false;
 ```
 
-**Definiendo o tempo de vida do Cache (em segundo)** ***(opcional)***
+###Definindo o tempo de vida do Cache (em segundo) ***(opcional)***
 ```php
 /*
  * @default 604800
@@ -92,14 +118,6 @@ $compressao->cacheavel = false;
 $compressao->cache = 604800;
 ```
 
-**Retorno da função incluir**
- * Uso da função buscaTipo() para recuperar o tipo de arquivo na URL
- * Uso da função buscaArquivos() para recuperar os arquivos passados na URL
-```php
-echo $compressao->incluir($compressao->buscaTipo(), $compressao->buscaArquivos());
-```
 
-
-
-### Contato
-Se precisar entrar em contato, will_levinski@hotmail.com e n3p0rb1t@gmail.com
+## Contato
+Se precisar entrar em contato, will_levinski@hotmail.com ou n3p0rb1t@gmail.com
