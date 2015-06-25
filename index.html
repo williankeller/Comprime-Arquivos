@@ -22,60 +22,64 @@
       <h3>
 <a id="compressão-de-arquivos" class="anchor" href="#compress%C3%A3o-de-arquivos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compressão de Arquivos</h3>
 
-<p><strong>Adicionando conteúdo externo</strong></p>
+<p><strong>Instanciando a Classe de Compressão</strong></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Compressao</span>();</span></pre></div>
+
+<p><strong>Definindo a Pasta padão dos arquivo de entrada</strong> <strong><em>(opcional)</em></strong></p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Instanciando a Classe de Compressão</span></span>
-<span class="pl-s1"><span class="pl-c"> */</span></span>
-<span class="pl-s1"><span class="pl-smi">$compressao</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Compressao</span>();</span></pre></div>
-
-<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Pasta padrão dos arquivos da @entrada</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default recursos/</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $pasta (varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
-<span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">pasta</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/projetos/Comprime-Arquivos/recursos/<span class="pl-pds">"</span></span>;</span></pre></div>
+<span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">pasta</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/projetos/recursos/<span class="pl-pds">"</span></span>;</span></pre></div>
+
+<p><strong>Definindo o nome do parâmetro que será resgatado na URL para identificar o tipo do arquivo</strong> <strong><em>(opcional)</em></strong></p>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Nome do parâmetro que será resgatado da URL para identificar o tipo do arquivo</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default "tipo"</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $buscaTipo (varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">buscaTipo</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>tipo<span class="pl-pds">"</span></span>;</span></pre></div>
 
+<p><strong>Definindo o nome do parâmetro que será resgatado na URL para identificar os arquivos</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Nome do parâmetro que será resgatado da URL para identificar os arquivos</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default "arquivos"</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $buscaArquivos (varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">buscaArquivos</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>arquivos<span class="pl-pds">"</span></span>;</span></pre></div>
 
+<p><strong>Definindo se o conteúdo deve ou não ser comprimido</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define se o conteúdo deve ou não ser comprimido</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default true</span></span>
 <span class="pl-s1"><span class="pl-c"> * @uses true / false</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $arquivoComprime (boolean varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">arquivoComprime</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>;</span></pre></div>
 
+<p><strong>Definindo se o termo do nome do arquivo para que ele seja ignorado</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define se o termo do nome do arquivo para que ele seja ignorado</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default ".min"</span></span>
 <span class="pl-s1"><span class="pl-c"> * @uses .min / min. / .minify</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $ignorar (varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">ignorar</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>.min<span class="pl-pds">'</span></span>;</span></pre></div>
 
+<p><strong>Definindo se o valor da entrada deve ser do tipo array ou varchar</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define se o valor da entrada deve ser do tipo array ou varchar</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default true</span></span>
 <span class="pl-s1"><span class="pl-c"> * @uses true / false</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $modoArray (boolean varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">modoArray</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>;</span></pre></div>
 
+<p><strong>Definindo o modo de separação dos arquivos</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define o modo de separação dos arquivos da @entrada</span></span>
 <span class="pl-s1"><span class="pl-c"> * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default ";"</span></span>
 <span class="pl-s1"><span class="pl-c"> * @uses ; / , / *</span></span>
@@ -83,31 +87,31 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">modoSeparador</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>;<span class="pl-pds">"</span></span>;</span></pre></div>
 
+<p><strong>Definiendo o retorno deve ser cacheado em browser ou não</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define se o retorno deve ser cacheado em browser ou não</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default false</span></span>
 <span class="pl-s1"><span class="pl-c"> * @uses true / false</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $cacheavel (boolean varchar)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">cacheavel</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>;</span></pre></div>
 
+<p><strong>Definiendo o tempo de vida do Cache (em segundo)</strong> <strong><em>(opcional)</em></strong></p>
+
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Define o tempo de vida do Cache (em segundo)</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default 604800</span></span>
 <span class="pl-s1"><span class="pl-c"> * @var $cache (int)</span></span>
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">cache</span> <span class="pl-k">=</span> <span class="pl-c1">604800</span>;</span></pre></div>
 
-<h3>
-<a id="incluir-arquivo" class="anchor" href="#incluir-arquivo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Incluir arquivo</h3>
+<p><strong>Retorno da função incluir</strong></p>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
-<span class="pl-s1"><span class="pl-c"> * Retorno da função incluir</span></span>
-<span class="pl-s1"><span class="pl-c"> * </span></span>
-<span class="pl-s1"><span class="pl-c"> * Uso da função buscaTipo() para recuperar o tipo de arquivo na URL</span></span>
-<span class="pl-s1"><span class="pl-c"> * Uso da função buscaArquivos() para recuperar os arquivos passados na URL</span></span>
-<span class="pl-s1"><span class="pl-c"> */</span></span>
-<span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaTipo(), <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaArquivos());</span></pre></div>
+<ul>
+<li>Uso da função buscaTipo() para recuperar o tipo de arquivo na URL</li>
+<li>Uso da função buscaArquivos() para recuperar os arquivos passados na URL</li>
+</ul>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaTipo(), <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaArquivos());</span></pre></div>
 
 <h3>
 <a id="contato" class="anchor" href="#contato" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contato</h3>
