@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Compreção e União de Arquivos
+ * Class Compressao
+ * 
+ * Compressão e União de Arquivos
  * Classe responsável pela compressão e unificação de arquivos css e js
  * 
  * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -9,11 +11,11 @@
  * @package Compressao
  */
 class Compressao {
+    
     /*
      * Variável de entrada da compressão
      * @var $entrada (varchar) 
      */
-
     private $entrada;
 
     /*
@@ -42,36 +44,42 @@ class Compressao {
 
     /*
      * Pasta padrão dos arquivos da @entrada
+     * @default "recursos/"
      * @var $pasta (varchar)
      */
     public $pasta = "recursos/";
 
     /*
      * Nome do parâmetro que será resgatado da URL para identificar o tipo do arquivo
+     * @default "tipo"
      * @var $buscaTipo (varchar)
      */
     public $buscaTipo = "tipo";
 
     /*
      * Nome do parâmetro que será resgatado da URL para identificar os arquivos
+     * @default "arquivos"
      * @var $buscaArquivos (varchar)
      */
     public $buscaArquivos = "arquivos";
 
     /*
      * Define se o conteúdo deve ou não ser comprimido (true / false)
+     * @default true
      * @var $arquivoComprime (boolean varchar)
      */
     public $arquivoComprime = true;
 
     /*
      * Define se o termo do nome do arquivo para que ele seja ignorado (.min / min. / .minify)
+     * @default ".min"
      * @var $ignorar (varchar)
      */
-    public $ignorar = '.min';
+    public $ignorar = ".min";
 
     /*
      * Define se o valor da entrada deve ser do tipo array ou varchar (true / false)
+     * @default true
      * @var $modoArray (boolean varchar)
      */
     public $modoArray = true;
@@ -79,18 +87,21 @@ class Compressao {
     /*
      * Define o modo de separação dos arquivos da @entrada (; / , / *)
      * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
+     * @default ";"
      * @var $modoSeparador (varchar)
      */
-    public $modoSeparador = ';';
+    public $modoSeparador = ";";
 
     /*
      * Define se o retorno deve ser cacheado em browser ou não (true / false)
+     * @default false
      * @var $cacheavel (boolean varchar)
      */
     public $cacheavel = false;
 
     /*
      * Define o tempo de vida do Cache (em segundo)
+     * @default 604800
      * @var $cache (int)
      */
     public $cache = 604800;
