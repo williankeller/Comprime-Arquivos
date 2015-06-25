@@ -121,12 +121,12 @@ class Compressao {
         if ($this->cacheavel === true) {
 
             /*
-             * Executa a função que define o tempo de vida do cache
+             * Executa a função resposável por definir o tempo de vida do arquivo em cache
              */
             $this->_arquivoVida();
 
             /*
-             * Executa a função que cria o cache do browser
+             * Executa a função responsável por criar o cache no browser
              */
             $this->_criaCacheBrowser();
 
@@ -271,7 +271,7 @@ class Compressao {
         if (strpos(basename($arquivo), $this->ignorar) === false) {
 
             /*
-             * 
+             * Executa a função responsável pela compressão do conteúdo do arquivo
              */
             $this->_comprime();
         }
@@ -306,11 +306,14 @@ class Compressao {
      */
     private function _arquivoSepara() {
 
+        // Verifica se o modo array está ativo
         if ($this->modoArray === true) {
 
+            // Retorna valor padrão
             return $this->entrada;
         }
 
+        // Retorna usando a base @modoSeparador
         return explode($this->modoSeparador, $this->entrada);
     }
 
@@ -322,25 +325,30 @@ class Compressao {
      * @return void
      */
     private function _arquivoUnifica() {
-        
+
         // Define o parâmetro conteúo com os conteúdos ufinicados
         $this->conteudo = implode('', $this->unificados);
     }
 
     /**
      * _arquivoVida()
+     * Função resposável por definir o tempo de vida do arquivo em cache
      *
      * @function private
      * @return void
      */
     private function _arquivoVida() {
 
+        // Monta o laço dos arquivos
         foreach ($this->_arquivoSepara() as $arquivo) {
 
+            // recupera a data de criação do arquivo
             $tempo = filemtime($this->_arquivoPasta($arquivo));
 
+            // Verifica o período de modificação
             if ($tempo > $this->modificado) {
 
+                // Define o novo período de modificação
                 $this->modificado = $tempo;
             }
         }
@@ -348,28 +356,43 @@ class Compressao {
 
     /**
      * _comprime()
+     * Função responsável pela compressão do conteúdo do arquivo
      *
      * @function private
      * @return void
      */
     private function _comprime() {
 
+        // Verifica se o método de compressão está ativo
         if ($this->arquivoComprime === true) {
 
+            /*
+             * Função responsável por remover os comentários em linha e em blocos
+             */
             $this->_removeComentarios();
+
+            /*
+             * Função responsável por remover quebras de linha, tabs e grandes espaços
+             */
             $this->_removeLinhas();
+
+            /*
+             * Função responsável por remover os espaços desnecessários entre os caracteres
+             */
             $this->_removeEspacos();
         }
     }
 
     /**
      * _removeComentarios()
+     * Função responsável por remover os comentários em linha e em blocos
      *
      * @function private
      * @return void
      */
     private function _removeComentarios() {
 
+        // Inicia a substituição do conteúdo
         $this->conteudo = preg_replace('!/\*.*?\*/!s', '', $this->conteudo);
         $this->conteudo = preg_replace('/\n\s*\n/', "\n", $this->conteudo);
         $this->conteudo = preg_replace('/((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))/', '', $this->conteudo);
@@ -377,23 +400,27 @@ class Compressao {
 
     /**
      * _removeLinhas()
+     * Função responsável por remover quebras de linha, tabs e grandes espaços
      *
      * @function private
      * @return void
      */
     private function _removeLinhas() {
 
+        // Inicia a substituição do conteúdo
         $this->conteudo = str_replace(array("\t", "\n", "\r", '  ', '    ', '     '), '', $this->conteudo);
     }
 
     /**
      * _removeEspacos()
+     * Função responsável por remover os espaços desnecessários entre os caracteres
      *
      * @function private
      * @return void
      */
     private function _removeEspacos() {
 
+        // Inicia a substituição do conteúdo
         $this->conteudo = str_replace(array(" {", "{ "), '{', $this->conteudo);
         $this->conteudo = str_replace(array(" }", "} "), '}', $this->conteudo);
         $this->conteudo = str_replace(array(' <', '< '), '<', $this->conteudo);
@@ -418,19 +445,31 @@ class Compressao {
 
     /**
      * _criaCacheBrowser()
+     * Função responsável por criar o cache no browser
      *
      * @final private
      * @return void
      */
     final private function _criaCacheBrowser() {
 
+        // Define o período de vida do cache
         header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $this->cache) . ' GMT');
 
+        /*
+         * Verifica a data de modigicação do HTTP
+         * Caso seja maior limpa todo o cache
+         */
         if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $this->modificado) {
 
+            // Cria o header de não alterado
             header("HTTP/1.0 304 Not Modified");
             header('Cache-Control:');
-        } else {
+        }
+        /*
+         * Define a vida útil do cache
+         * Como padrão a data a última modificação
+         */ else {
+            // Cria o header com o novo período
             header('Cache-Control: max-age=' . $this->cache);
             header('Pragma:');
             header("Last-Modified: " . gmdate("D, d M Y H:i:s", $this->modificado) . " GMT");
@@ -438,3 +477,5 @@ class Compressao {
     }
 
 }
+
+// Compressao
