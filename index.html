@@ -20,12 +20,44 @@
 
     <section class="main-content">
       <h1>
-<a id="compressão-de-arquivos" class="anchor" href="#compress%C3%A3o-de-arquivos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compressão de Arquivos</h1>
+<a id="definições-básicas-de-uso" class="anchor" href="#defini%C3%A7%C3%B5es-b%C3%A1sicas-de-uso" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definições Básicas de Uso</h1>
 
-<h3>
-<a id="instanciando-a-classe-de-compressão" class="anchor" href="#instanciando-a-classe-de-compress%C3%A3o" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instanciando a Classe de Compressão</h3>
+<h2>
+<a id="instanciando-a-classe-de-compressão" class="anchor" href="#instanciando-a-classe-de-compress%C3%A3o" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instanciando a Classe de Compressão</h2>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Compressao</span>();</span></pre></div>
+
+<h2>
+<a id="imprimindo-o-conteúdo-inline" class="anchor" href="#imprimindo-o-conte%C3%BAdo-inline" aria-hidden="true"><span class="octicon octicon-link"></span></a>Imprimindo o conteúdo inline</h2>
+
+<p>Incluindo arquivos JavaScript usando <code>array</code></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-s"><span class="pl-pds">'</span>js<span class="pl-pds">'</span></span>, <span class="pl-c1">array</span>(<span class="pl-s"><span class="pl-pds">'</span>js/jquery.min<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>js/exemplo<span class="pl-pds">'</span></span>));</span></pre></div>
+
+<h2>
+<a id="imprimindo-o-conteúdo-inline-1" class="anchor" href="#imprimindo-o-conte%C3%BAdo-inline-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Imprimindo o conteúdo inline</h2>
+
+<p>Incluindo arquivos JavaScript usando <code>string</code></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-s"><span class="pl-pds">'</span>css<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>css/bootstrap;css/exemplo<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<h2>
+<a id="imprimindo-o-conteúdo-usando-parâmetros-da-url" class="anchor" href="#imprimindo-o-conte%C3%BAdo-usando-par%C3%A2metros-da-url" aria-hidden="true"><span class="octicon octicon-link"></span></a>Imprimindo o conteúdo usando parâmetros da URL</h2>
+
+<ul>
+<li>Uso da função <code>buscaTipo()</code> para recuperar o tipo de arquivo na URL</li>
+<li>Uso da função <code>buscaArquivos()</code> para recuperar os arquivos passados na URL</li>
+</ul>
+
+<p><strong>Ex.:</strong> <code>comprime.php?tipo=css&amp;arquivos=css/bootstrap;css/exemplo</code></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaTipo(), <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaArquivos());</span></pre></div>
+
+<p>A função <code>buscaTipo()</code> será responsável por recuperar o valor passado pelo parâmetro <code>tipo</code>
+A função <code>buscaArquivos()</code> será responsável por recuperar o valor passado pelo parâmetro <code>arquivos</code></p>
+
+<h1>
+<a id="definições-opcionais-de-uso" class="anchor" href="#defini%C3%A7%C3%B5es-opcionais-de-uso" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definições Opcionais de Uso</h1>
 
 <h3>
 <a id="definindo-a-pasta-padrão-dos-arquivo-de-entrada-opcional" class="anchor" href="#definindo-a-pasta-padr%C3%A3o-dos-arquivo-de-entrada-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo a pasta padrão dos arquivo de entrada <strong><em>(opcional)</em></strong>
@@ -123,24 +155,15 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">cache</span> <span class="pl-k">=</span> <span class="pl-c1">604800</span>;</span></pre></div>
 
-<h3>
-<a id="retorno-da-função-incluir" class="anchor" href="#retorno-da-fun%C3%A7%C3%A3o-incluir" aria-hidden="true"><span class="octicon octicon-link"></span></a>Retorno da função incluir</h3>
-
-<ul>
-<li>Uso da função buscaTipo() para recuperar o tipo de arquivo na URL</li>
-<li>Uso da função buscaArquivos() para recuperar os arquivos passados na URL</li>
-</ul>
-
-<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c1">echo</span> <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>incluir(<span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaTipo(), <span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span>buscaArquivos());</span></pre></div>
-
 <h2>
 <a id="contato" class="anchor" href="#contato" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contato</h2>
 
-<p>Se precisar entrar em contato, <a href="mailto:will_levinski@hotmail.com">will_levinski@hotmail.com</a> e <a href="mailto:n3p0rb1t@gmail.com">n3p0rb1t@gmail.com</a></p>
+<p>Se precisar entrar em contato, <a href="mailto:will_levinski@hotmail.com">will_levinski@hotmail.com</a> ou <a href="mailto:n3p0rb1t@gmail.com">n3p0rb1t@gmail.com</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/williankeller/Comprime-Arquivos">Compressão de Arquivos</a> is maintained by <a href="https://github.com/williankeller">williankeller</a>.</span>
 
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
 
     </section>
