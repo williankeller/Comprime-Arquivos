@@ -1,114 +1,308 @@
 <?php
 
+/**
+ * Compreção e União de Arquivos
+ * Classe responsável pela compressão e unificação de arquivos css e js
+ * 
+ * @license http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author Willian keller <will_levinki@hotmail.com>
+ * @package Compressao
+ */
 class Compressao {
+    /*
+     * Variável de entrada da compressão
+     * @var $entrada (varchar) 
+     */
 
     private $entrada;
+
+    /*
+     * Tipo de arquivo à ser unificado e comprimido (js ou css)
+     * @var $tipo (varchar) 
+     */
     private $tipo;
+
+    /*
+     * Conteúdo retirado do arquivo informado na @entrada
+     * @var $conteudo (varchar) 
+     */
     private $conteudo;
+
+    /*
+     * Conteúdo em laço preparado para ser unificado
+     * @var $unificados (array) 
+     */
     private $unificados;
-    private $pasta = '/projetos/Comprime-Arquivos/recursos/';
-    private $buscaTipo = 'tipo';
-    private $buscaArquivos = 'arquivos';
-    private $arquivoComprime = true;
-    private $ignorar = '.min';
-    private $modoArray = true;
-    private $modoSeparador = ';';
-    private $cacheavel = false;
+
+    /*
+     * Recebe o tempo de modificação do arquivo
+     * @var $modificado (int)
+     */
     private $modificado = 0;
-    private $cache = 604800;
+
+    /*
+     * Pasta padrão dos arquivos da @entrada
+     * @var $pasta (varchar)
+     */
+    public $pasta = "recursos/";
+
+    /*
+     * Nome do parâmetro que será resgatado da URL para identificar o tipo do arquivo
+     * @var $buscaTipo (varchar)
+     */
+    public $buscaTipo = "tipo";
+
+    /*
+     * Nome do parâmetro que será resgatado da URL para identificar os arquivos
+     * @var $buscaArquivos (varchar)
+     */
+    public $buscaArquivos = "arquivos";
+
+    /*
+     * Define se o conteúdo deve ou não ser comprimido (true / false)
+     * @var $arquivoComprime (boolean varchar)
+     */
+    public $arquivoComprime = true;
+
+    /*
+     * Define se o termo do nome do arquivo para que ele seja ignorado (.min / min. / .minify)
+     * @var $ignorar (varchar)
+     */
+    public $ignorar = '.min';
+
+    /*
+     * Define se o valor da entrada deve ser do tipo array ou varchar (true / false)
+     * @var $modoArray (boolean varchar)
+     */
+    public $modoArray = true;
+
+    /*
+     * Define o modo de separação dos arquivos da @entrada (; / , / *)
+     * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
+     * @var $modoSeparador (varchar)
+     */
+    public $modoSeparador = ';';
+
+    /*
+     * Define se o retorno deve ser cacheado em browser ou não (true / false)
+     * @var $cacheavel (boolean varchar)
+     */
+    public $cacheavel = false;
+
+    /*
+     * Define o tempo de vida do Cache (em segundo)
+     * @var $cache (int)
+     */
+    public $cache = 604800;
 
     /**
-     * @return varchar
+     * incluir()
+     * Função responsável por incluir o conteúdo dos arquivos informados na @entrada 
+     *
+     * @function public
+     * @param varchar $tipo (Tipo de arquivo à ser unificado e comprimido js ou css)
+     * @param varchar / array $entrada (Variável de entrada da compressão)
+     * @return $this->conteudo (Retorna conteúdo do arquivo da @entrada)
      */
-    public function minificar($tipo, $entrada) {
+    public function incluir($tipo, $entrada) {
 
-        $this->entrada = $entrada;
+        // Passando a variável $entrada para a instância @entrada
         $this->tipo = $tipo;
+
+        // Passando a variável $entrada para a instância @entrada
+        $this->entrada = $entrada;
 
         $this->_arquivoConteudo();
 
+        /*
+         * Verifica se a definição permite 
+         * que o conteúdo seja cacheado
+         */
         if ($this->cacheavel === true) {
 
+            /*
+             * Executa a função que define o tempo de vida do cache
+             */
             $this->_arquivoVida();
 
+            /*
+             * Executa a função que cria o cache do browser
+             */
             $this->_criaCacheBrowser();
 
+            // Retorna o conteúdo cacheado
             return $this->conteudo;
         }
-
+        // Retorna o conteúdo padrão
         return $this->conteudo;
     }
 
     /**
-     * @return varchar
+     * buscaTipo()
+     * Função responsável por recuperar o tipo passado por parâmetro na URL 
+     *
+     * @function public
+     * @method varchar $this->buscaTipo (Nome do parâmetro que será resgatado da URL para identificar o tipo do arquivo)
+     * @return varchar $_GET (Retorna os tipo do arquivo)
      */
     public function buscaTipo() {
 
+        // Retorna o tipo do arquivo
         return filter_input(INPUT_GET, $this->buscaTipo, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     /**
-     * @return varchar
+     * buscaArquivos()
+     * Função responsável por recuperar o tipo passado por parâmetro na URL 
+     *
+     * @function public
+     * @method varchar $this->buscaArquivos (Nome do parâmetro que será resgatado da URL para identificar os arquivos)
+     * @return varchar $_GET (Retorna a lista de arquivos)
      */
-    public function buscaArquivos($array = null) {
+    public function buscaArquivos() {
 
-        if ($array === true) {
+        // Verifica se o modo array está ativo
+        if ($this->modoArray === true) {
 
+            // Retorna a lista dos arquivos em modo array
             return explode($this->modoSeparador, filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS));
         }
 
+        // Retorna o parâmetro padrão do arquivo (Ainda unido pelo @modoSeparador)
         return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     /**
-     * @return varchar
+     * _arquivoPasta()
+     * Função responsável por retornar a rota base do arquivo 
+     * incluindo a extenção passada pela @tipo
+     *
+     * @function private
+     * @param varchar $arquivo (Arquivo passado na @entrada)
+     * @return varchar (Retorna a rota base do arquivo)
      */
     private function _arquivoPasta($arquivo) {
 
+        // Retorna a rota base do arquivo com a extenção
         return $_SERVER['DOCUMENT_ROOT'] . $this->pasta . $arquivo . '.' . $this->tipo;
     }
 
     /**
+     * _arquivoConteudo()
+     * Função responsável por retornar a rota base do arquivo 
+     * incluindo a extenção passada pela @tipo
+     *
+     * @function private
+     * @param varchar $arquivo (Arquivo passado na @entrada)
      * @return void
      */
     private function _arquivoConteudo() {
 
-        if ($this->tipo === 'css') {
-            header('Content-type: text/css; charset=UTF-8');
-        } else {
-            header('Content-Type: application/javascript');
-        }
+        /*
+         * Função cria o header do tipo do arquivo para leitura
+         */
+        $this->_arquivoTipoConteudo();
 
+        /*
+         * Inicia o laço de leitura individal por arquivo
+         */
         foreach ($this->_arquivoSepara() as $arquivo) {
 
-            if (!file_exists($this->_arquivoPasta($arquivo))) {
+            // Verifica se o arquivo não existe
+            if (file_exists($this->_arquivoPasta($arquivo))) {
 
-                $this->unificados[] = $this->_arquivoErro($arquivo);
+                /*
+                 * Função responsável pela abertura e leitura do arquivo informado
+                 */
+                $this->_arquivoLeitura($arquivo);
             } else {
-                $file = fopen($this->_arquivoPasta($arquivo), 'r');
-
-                $this->conteudo = fread($file, filesize($this->_arquivoPasta($arquivo)));
-
-                if (strpos(basename($arquivo), $this->ignorar) === false) {
-
-                    $this->_comprime();
-                }
-                $this->unificados[] = $this->conteudo;
+                /*
+                 * Função responsável por definir o erro em formáto de comentátio no arquivo
+                 */
+                $this->_arquivoErro($arquivo);
             }
         }
+        /*
+         * Função responsável por unir o conteúdo dos arquivos
+         */
         $this->_arquivoUnifica();
     }
-    
+
     /**
-     * @return varchar
+     * _arquivoTipoConteudo()
+     * Função cria o header do tipo do arquivo para leitura
+     *
+     * @function private
+     * @return void
+     */
+    private function _arquivoTipoConteudo() {
+
+        // Verifica se o tipo do arquivo corresponde ao desejado
+        if ($this->tipo === 'css') {
+            // Cria o header para leiura de css
+            header('Content-type: text/css; charset=UTF-8');
+        } else {
+            // cria do header para leitura de javascript
+            header('Content-Type: application/javascript');
+        }
+    }
+
+    /**
+     * _arquivoLeitura()
+     * Função responsável pela abertura e leitura do arquivo informado
+     *
+     * @function private
+     * @param varchar $arquivo
+     * @return void
+     */
+    private function _arquivoLeitura($arquivo) {
+
+        // Realiza a abertura do arquivo
+        $fopen = fopen($this->_arquivoPasta($arquivo), 'r');
+
+        // Realiza a leitura do arquivo
+        $this->conteudo = fread($fopen, filesize($this->_arquivoPasta($arquivo)));
+
+        /*
+         * Verifica se o arquivo permite a compressão
+         * Definição feita em "$this->ignorar"
+         * Caso o nome do arquivo contenha esse valor, a compressão será ignorada
+         */
+        if (strpos(basename($arquivo), $this->ignorar) === false) {
+
+            /*
+             * 
+             */
+            $this->_comprime();
+        }
+        /*
+         * Define o conteúdo em laço preparado para ser unificado
+         */
+        $this->unificados[] = $this->conteudo;
+    }
+
+    /**
+     * _arquivoErro()
+     * Função responsável por definir o erro em formato de comentátio no arquivo
+     *
+     * @function private
+     * @param varchar $arquivo
+     * @return void
      */
     private function _arquivoErro($arquivo) {
 
-        return "\n /* Erro ao incluir o arquivo '" . $arquivo . "' */";
+        // Define a resposta em comentário para o laço
+        $this->unificados[] = "\n/* \n * ERRO: Erro ao incluir o arquivo: '" . $arquivo . "' \n */ \n";
     }
 
     /**
-     * @return array
+     * _arquivoSepara()
+     * Função verifica se o modo é array
+     * Caso seja, retorna valor padrão
+     * Se não ela separa usando a base @modoSeparador
+     *
+     * @function private
+     * @return array (Lista de arquivos em laço)
      */
     private function _arquivoSepara() {
 
@@ -121,14 +315,22 @@ class Compressao {
     }
 
     /**
+     * _arquivoUnifica()
+     * Função responsável por unir o conteúdo dos arquivos
+     *
+     * @function private
      * @return void
      */
     private function _arquivoUnifica() {
-
+        
+        // Define o parâmetro conteúo com os conteúdos ufinicados
         $this->conteudo = implode('', $this->unificados);
     }
 
     /**
+     * _arquivoVida()
+     *
+     * @function private
      * @return void
      */
     private function _arquivoVida() {
@@ -145,7 +347,9 @@ class Compressao {
     }
 
     /**
-     * Lance les opérations de minification des fichiers
+     * _comprime()
+     *
+     * @function private
      * @return void
      */
     private function _comprime() {
@@ -153,13 +357,15 @@ class Compressao {
         if ($this->arquivoComprime === true) {
 
             $this->_removeComentarios();
-            $this->_removeEspacosLinhas();
+            $this->_removeLinhas();
             $this->_removeEspacos();
         }
     }
 
     /**
-     * Remove comentários
+     * _removeComentarios()
+     *
+     * @function private
      * @return void
      */
     private function _removeComentarios() {
@@ -170,22 +376,32 @@ class Compressao {
     }
 
     /**
-     * Remove tabs e quebras de linhas
+     * _removeLinhas()
+     *
+     * @function private
      * @return void
      */
-    private function _removeEspacosLinhas() {
+    private function _removeLinhas() {
 
         $this->conteudo = str_replace(array("\t", "\n", "\r", '  ', '    ', '     '), '', $this->conteudo);
     }
 
     /**
-     * Remove espaços do itens
+     * _removeEspacos()
+     *
+     * @function private
      * @return void
      */
     private function _removeEspacos() {
 
         $this->conteudo = str_replace(array(" {", "{ "), '{', $this->conteudo);
         $this->conteudo = str_replace(array(" }", "} "), '}', $this->conteudo);
+        $this->conteudo = str_replace(array(' <', '< '), '<', $this->conteudo);
+        $this->conteudo = str_replace(array(' >', '> '), '>', $this->conteudo);
+        $this->conteudo = str_replace(array(' +', '+ '), '+', $this->conteudo);
+        $this->conteudo = str_replace(array(' -', '- '), '-', $this->conteudo);
+        $this->conteudo = str_replace(array(' ]', '] '), ']', $this->conteudo);
+        $this->conteudo = str_replace(array(' [', '[ '), '[', $this->conteudo);
         $this->conteudo = str_replace(array(';}', '} '), '}', $this->conteudo);
         $this->conteudo = str_replace(array(' ;', '; '), ';', $this->conteudo);
         $this->conteudo = str_replace(array(' (', '( '), '(', $this->conteudo);
@@ -194,14 +410,19 @@ class Compressao {
         $this->conteudo = str_replace(array(' :', ': '), ':', $this->conteudo);
         $this->conteudo = str_replace(array(' =', '= '), '=', $this->conteudo);
         $this->conteudo = str_replace(array(' ==', '== '), '==', $this->conteudo);
+        $this->conteudo = str_replace(array(' &&', '&& '), '&&', $this->conteudo);
+        $this->conteudo = str_replace(array(' ||', '|| '), '||', $this->conteudo);
+        $this->conteudo = str_replace(array(' !==', '!== '), '!==', $this->conteudo);
         $this->conteudo = str_replace(array(' ===', '=== '), '===', $this->conteudo);
     }
 
     /**
-     * Remove espaços do itens
+     * _criaCacheBrowser()
+     *
+     * @final private
      * @return void
      */
-    private function _criaCacheBrowser() {
+    final private function _criaCacheBrowser() {
 
         header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $this->cache) . ' GMT');
 
