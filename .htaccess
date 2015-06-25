@@ -1,0 +1,5 @@
+
+RewriteEngine On
+
+RewriteRule ^comprime/([a-z]+)/(.+)$ comprime.php?tipo=$1&arquivos=$2
+RewriteRule ^comprime/([a-z]+)/(.+)/$ comprime.php?tipo=$1&arquivos=$2

@@ -7,29 +7,35 @@
  */
 
 class Compressao {
-    
-    private $entrada = '';
-    private $conteudos = '';
-    private $conteudo = '';
+
+    private $entrada;
+    private $tipo;
+    private $conteudos;
+    private $conteudo;
+    private $pasta = '/Comprime-Arquivos/recursos/';
+    private $buscaTipo = 'tipo';
+    private $buscaArquivos = 'arquivos';
     private $modoArray = true;
     private $modoSeparador = ';';
-    private $cacheavel = false;
+    private $cacheavel = true;
     private $modificado = 0;
     private $cache = 604800;
 
     /**
      * @return varchar
      */
-    public function minificar($entrada) {
+    public function minificar($tipo, $entrada) {
 
         $this->entrada = $entrada;
+        $this->tipo = $tipo;
 
-        #$this->_arquivoLista();
         $this->_arquivoConteudo();
 
         $this->_comprime();
 
         if ($this->cacheavel === true) {
+
+            $this->_arquivoVida();
 
             $this->_criaCacheBrowser();
 
@@ -42,9 +48,27 @@ class Compressao {
     /**
      * @return varchar
      */
-    private function _arquivoValido() {
+    public function buscaTipo() {
 
-        return $this->entrada;
+        return filter_input(INPUT_GET, $this->buscaTipo, FILTER_SANITIZE_SPECIAL_CHARS);
+    }
+
+    /**
+     * @return varchar
+     */
+    public function buscaArquivos($array = null) {
+
+        if ($array === true) {
+
+            return explode($this->modoSeparador, filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS));
+        }
+
+        return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
+    }
+
+    private function _arquivoPasta($arquivo) {
+
+        return $_SERVER['DOCUMENT_ROOT'] . $this->pasta . $arquivo . '.' . $this->tipo;
     }
 
     /**
@@ -52,11 +76,13 @@ class Compressao {
      */
     private function _arquivoConteudo() {
 
+        header('Content-type: text/' . $this->tipo . '; charset=UTF-8');
+
         foreach ($this->_arquivoSepara() as $arquivo) {
 
-            $file = fopen($arquivo, 'r');
+            $file = fopen($this->_arquivoPasta($arquivo), 'r');
 
-            $this->conteudos[] = fread($file, filesize($arquivo));
+            $this->conteudos[] = fread($file, filesize($this->_arquivoPasta($arquivo)));
         }
 
         $this->_arquivoUne();
@@ -69,7 +95,7 @@ class Compressao {
 
         foreach ($this->_arquivoSepara() as $arquivo) {
 
-            $tempo = filemtime($arquivo);
+            $tempo = filemtime($this->_arquivoPasta($arquivo));
 
             if ($tempo > $this->modificado) {
 
@@ -136,7 +162,7 @@ class Compressao {
 
         $this->conteudo = str_replace(array(" {", "{ "), '{', $this->conteudo);
         $this->conteudo = str_replace(array(" }", "} "), '}', $this->conteudo);
-        $this->conteudo = str_replace(array(';}'), '}', $this->conteudo);
+        $this->conteudo = str_replace(array(';}', '} '), '}', $this->conteudo);
         $this->conteudo = str_replace(array(' ;', '; '), ';', $this->conteudo);
         $this->conteudo = str_replace(array(' (', '( '), '(', $this->conteudo);
         $this->conteudo = str_replace(array(' )', ') '), ')', $this->conteudo);
@@ -161,7 +187,6 @@ class Compressao {
             header('Cache-Control:');
         } else {
             header('Cache-Control: max-age=' . $this->cache);
-            header('Content-type: text/css; charset=UTF-8');
             header('Pragma:');
             header("Last-Modified: " . gmdate("D, d M Y H:i:s", $this->modificado) . " GMT");
         }
