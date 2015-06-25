@@ -12,9 +12,11 @@ class Compressao {
     private $tipo;
     private $conteudos;
     private $conteudo;
-    private $pasta = '/Comprime-Arquivos/recursos/';
+    private $pasta = '/projetos/Comprime-Arquivos/recursos/';
     private $buscaTipo = 'tipo';
     private $buscaArquivos = 'arquivos';
+    private $arquivoComprime = true;
+    private $ignorar = '.min';
     private $modoArray = true;
     private $modoSeparador = ';';
     private $cacheavel = true;
@@ -31,7 +33,7 @@ class Compressao {
 
         $this->_arquivoConteudo();
 
-        $this->_comprime();
+
 
         if ($this->cacheavel === true) {
 
@@ -76,16 +78,23 @@ class Compressao {
      */
     private function _arquivoConteudo() {
 
-        header('Content-type: text/' . $this->tipo . '; charset=UTF-8');
+        if ($this->tipo === 'css') {
+            header('Content-type: text/css; charset=UTF-8');
+        } else {
+            header('Content-Type: application/javascript');
+        }
 
         foreach ($this->_arquivoSepara() as $arquivo) {
 
             $file = fopen($this->_arquivoPasta($arquivo), 'r');
 
-            $this->conteudos[] = fread($file, filesize($this->_arquivoPasta($arquivo)));
-        }
+            $this->conteudo = fread($file, filesize($this->_arquivoPasta($arquivo)));
 
-        $this->_arquivoUne();
+            if (strpos(basename($this->_arquivoPasta($arquivo)), $this->ignorar) === false) {
+
+                $this->_comprime();
+            }
+        }
     }
 
     /**
@@ -118,22 +127,17 @@ class Compressao {
     }
 
     /**
-     * @return varchar
-     */
-    private function _arquivoUne() {
-
-        $this->conteudo = implode('', $this->conteudos);
-    }
-
-    /**
      * Lance les opérations de minification des fichiers
      * @return void
      */
     private function _comprime() {
 
-        $this->_removeComentarios();
-        $this->_removeEspacosLinhas();
-        $this->_removeEspacos();
+        if ($this->arquivoComprime === true) {
+
+            $this->_removeComentarios();
+            $this->_removeEspacosLinhas();
+            $this->_removeEspacos();
+        }
     }
 
     /**
@@ -142,6 +146,8 @@ class Compressao {
      */
     private function _removeComentarios() {
 
+        $this->conteudo = preg_replace('!/\*.*?\*/!s', '', $this->conteudo);
+        $this->conteudo = preg_replace('/\n\s*\n/', "\n", $this->conteudo);
         $this->conteudo = preg_replace('/((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))/', '', $this->conteudo);
     }
 
