@@ -7,6 +7,6 @@
     </head>
 
     <body>
-        <script src="comprime/js/js/jquery;js/bootstrap"></script>
+        <script src="comprime/js/bootstrap.min;js/jquery"></script>
     </body>
 </html>

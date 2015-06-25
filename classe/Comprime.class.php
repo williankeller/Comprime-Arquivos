@@ -1,16 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 class Compressao {
 
     private $entrada;
     private $tipo;
     private $conteudo;
+    private $unificados;
     private $pasta = '/projetos/Comprime-Arquivos/recursos/';
     private $buscaTipo = 'tipo';
     private $buscaArquivos = 'arquivos';
@@ -18,7 +13,7 @@ class Compressao {
     private $ignorar = '.min';
     private $modoArray = true;
     private $modoSeparador = ';';
-    private $cacheavel = true;
+    private $cacheavel = false;
     private $modificado = 0;
     private $cache = 604800;
 
@@ -64,7 +59,7 @@ class Compressao {
 
         return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
     }
-    
+
     /**
      * @return varchar
      */
@@ -86,15 +81,51 @@ class Compressao {
 
         foreach ($this->_arquivoSepara() as $arquivo) {
 
-            $file = fopen($this->_arquivoPasta($arquivo), 'r');
+            if (!file_exists($this->_arquivoPasta($arquivo))) {
 
-            $this->conteudo = fread($file, filesize($this->_arquivoPasta($arquivo)));
+                $this->unificados[] = $this->_arquivoErro($arquivo);
+            } else {
+                $file = fopen($this->_arquivoPasta($arquivo), 'r');
 
-            if (strpos(basename($this->_arquivoPasta($arquivo)), $this->ignorar) === false) {
+                $this->conteudo = fread($file, filesize($this->_arquivoPasta($arquivo)));
 
-                $this->_comprime();
+                if (strpos(basename($arquivo), $this->ignorar) === false) {
+
+                    $this->_comprime();
+                }
+                $this->unificados[] = $this->conteudo;
             }
         }
+        $this->_arquivoUnifica();
+    }
+    
+    /**
+     * @return varchar
+     */
+    private function _arquivoErro($arquivo) {
+
+        return "\n /* Erro ao incluir o arquivo '" . $arquivo . "' */";
+    }
+
+    /**
+     * @return array
+     */
+    private function _arquivoSepara() {
+
+        if ($this->modoArray === true) {
+
+            return $this->entrada;
+        }
+
+        return explode($this->modoSeparador, $this->entrada);
+    }
+
+    /**
+     * @return void
+     */
+    private function _arquivoUnifica() {
+
+        $this->conteudo = implode('', $this->unificados);
     }
 
     /**
@@ -111,19 +142,6 @@ class Compressao {
                 $this->modificado = $tempo;
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    private function _arquivoSepara() {
-
-        if ($this->modoArray === true) {
-
-            return $this->entrada;
-        }
-
-        return explode($this->modoSeparador, $this->entrada);
     }
 
     /**
