@@ -10,7 +10,6 @@ class Compressao {
 
     private $entrada;
     private $tipo;
-    private $conteudos;
     private $conteudo;
     private $pasta = '/projetos/Comprime-Arquivos/recursos/';
     private $buscaTipo = 'tipo';
@@ -32,8 +31,6 @@ class Compressao {
         $this->tipo = $tipo;
 
         $this->_arquivoConteudo();
-
-
 
         if ($this->cacheavel === true) {
 
@@ -67,7 +64,10 @@ class Compressao {
 
         return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
     }
-
+    
+    /**
+     * @return varchar
+     */
     private function _arquivoPasta($arquivo) {
 
         return $_SERVER['DOCUMENT_ROOT'] . $this->pasta . $arquivo . '.' . $this->tipo;
