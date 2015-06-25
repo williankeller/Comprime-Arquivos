@@ -22,12 +22,13 @@
       <h1>
 <a id="compressão-de-arquivos" class="anchor" href="#compress%C3%A3o-de-arquivos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compressão de Arquivos</h1>
 
-<p><strong>Instanciando a Classe de Compressão</strong></p>
+<h3>
+<a id="instânciando-a-classe-de-compressão" class="anchor" href="#inst%C3%A2nciando-a-classe-de-compress%C3%A3o" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instânciando a Classe de Compressão</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-smi">$compressao</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Compressao</span>();</span></pre></div>
 
 <h3>
-<a id="definindo-a-pasta-padão-dos-arquivo-de-entrada-opcional" class="anchor" href="#definindo-a-pasta-pad%C3%A3o-dos-arquivo-de-entrada-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo a Pasta padão dos arquivo de entrada** <strong><em>(opcional)</em></strong>
+<a id="definindo-a-pasta-padrão-dos-arquivo-de-entrada-opcional" class="anchor" href="#definindo-a-pasta-padr%C3%A3o-dos-arquivo-de-entrada-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo a pasta padrão dos arquivo de entrada <strong><em>(opcional)</em></strong>
 </h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
@@ -36,7 +37,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">pasta</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>/projetos/recursos/<span class="pl-pds">"</span></span>;</span></pre></div>
 
-<p><strong>Definindo o nome do parâmetro que será resgatado na URL para identificar o tipo do arquivo</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-o-nome-do-parâmetro-que-será-resgatado-na-url-para-identificar-o-tipo-do-arquivo-opcional" class="anchor" href="#definindo-o-nome-do-par%C3%A2metro-que-ser%C3%A1-resgatado-na-url-para-identificar-o-tipo-do-arquivo-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo o nome do parâmetro que será resgatado na URL para identificar o tipo do arquivo <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default "tipo"</span></span>
@@ -44,7 +47,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">buscaTipo</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>tipo<span class="pl-pds">"</span></span>;</span></pre></div>
 
-<p><strong>Definindo o nome do parâmetro que será resgatado na URL para identificar os arquivos</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-o-nome-do-parâmetro-que-será-resgatado-na-url-para-identificar-os-arquivos-opcional" class="anchor" href="#definindo-o-nome-do-par%C3%A2metro-que-ser%C3%A1-resgatado-na-url-para-identificar-os-arquivos-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo o nome do parâmetro que será resgatado na URL para identificar os arquivos <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default "arquivos"</span></span>
@@ -52,7 +57,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">buscaArquivos</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>arquivos<span class="pl-pds">"</span></span>;</span></pre></div>
 
-<p><strong>Definindo se o conteúdo deve ou não ser comprimido</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-se-o-conteúdo-deve-ou-não-ser-comprimido-opcional" class="anchor" href="#definindo-se-o-conte%C3%BAdo-deve-ou-n%C3%A3o-ser-comprimido-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo se o conteúdo deve ou não ser comprimido <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default true</span></span>
@@ -61,7 +68,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">arquivoComprime</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>;</span></pre></div>
 
-<p><strong>Definindo se o termo do nome do arquivo para que ele seja ignorado</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-o-termo-do-nome-do-arquivo-para-que-ele-seja-ignorado-opcional" class="anchor" href="#definindo-o-termo-do-nome-do-arquivo-para-que-ele-seja-ignorado-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo o termo do nome do arquivo para que ele seja ignorado <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default ".min"</span></span>
@@ -70,7 +79,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">ignorar</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>.min<span class="pl-pds">'</span></span>;</span></pre></div>
 
-<p><strong>Definindo se o valor da entrada deve ser do tipo array ou varchar</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-se-o-valor-da-entrada-deve-ser-do-tipo-array-ou-varchar-opcional" class="anchor" href="#definindo-se-o-valor-da-entrada-deve-ser-do-tipo-array-ou-varchar-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo se o valor da entrada deve ser do tipo array ou varchar <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default true</span></span>
@@ -79,7 +90,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">modoArray</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>;</span></pre></div>
 
-<p><strong>Definindo o modo de separação dos arquivos</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-o-modo-de-separação-dos-arquivos-opcional" class="anchor" href="#definindo-o-modo-de-separa%C3%A7%C3%A3o-dos-arquivos-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo o modo de separação dos arquivos <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores</span></span>
@@ -89,7 +102,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">modoSeparador</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>;<span class="pl-pds">"</span></span>;</span></pre></div>
 
-<p><strong>Definiendo o retorno deve ser cacheado em browser ou não</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-se-o-retorno-deve-ser-cacheado-em-browser-ou-não-opcional" class="anchor" href="#definindo-se-o-retorno-deve-ser-cacheado-em-browser-ou-n%C3%A3o-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo se o retorno deve ser cacheado em browser ou não <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default false</span></span>
@@ -98,7 +113,9 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">cacheavel</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>;</span></pre></div>
 
-<p><strong>Definiendo o tempo de vida do Cache (em segundo)</strong> <strong><em>(opcional)</em></strong></p>
+<h3>
+<a id="definindo-o-tempo-de-vida-do-cache-em-segundo-opcional" class="anchor" href="#definindo-o-tempo-de-vida-do-cache-em-segundo-opcional" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definindo o tempo de vida do Cache (em segundo) <strong><em>(opcional)</em></strong>
+</h3>
 
 <div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/*</span></span>
 <span class="pl-s1"><span class="pl-c"> * @default 604800</span></span>
@@ -106,7 +123,8 @@
 <span class="pl-s1"><span class="pl-c"> */</span></span>
 <span class="pl-s1"><span class="pl-smi">$compressao</span><span class="pl-k">-&gt;</span><span class="pl-smi">cache</span> <span class="pl-k">=</span> <span class="pl-c1">604800</span>;</span></pre></div>
 
-<p><strong>Retorno da função incluir</strong></p>
+<h3>
+<a id="retorno-da-função-incluir" class="anchor" href="#retorno-da-fun%C3%A7%C3%A3o-incluir" aria-hidden="true"><span class="octicon octicon-link"></span></a>Retorno da função incluir</h3>
 
 <ul>
 <li>Uso da função buscaTipo() para recuperar o tipo de arquivo na URL</li>
