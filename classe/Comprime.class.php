@@ -322,7 +322,7 @@ class Compressao {
     private function _arquivoErro($erro, $arquivo) {
 
         // Define a resposta em comentário para o laço
-        $this->unificados[] = "\n/* \n * ERRO: " . $erro . " '" . $arquivo . "' \n */ \n";
+        $this->unificados[] = "\n/* \n * ERRO: " . $erro . " " . $arquivo . " \n */ \n";
     }
 
     /**
