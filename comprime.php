@@ -65,7 +65,7 @@ $compressao->ignorar = '.min';
  * @uses true / false
  * @var $modoArray (boolean varchar)
  */
-$compressao->modoArray = true;
+$compressao->modoArray = false;
 
 /*
  * Define o modo de separação dos arquivos da @entrada

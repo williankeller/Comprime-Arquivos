@@ -11,11 +11,11 @@
  * @package Compressao
  */
 class Compressao {
-    
     /*
      * Variável de entrada da compressão
      * @var $entrada (varchar) 
      */
+
     private $entrada;
 
     /*
@@ -173,12 +173,10 @@ class Compressao {
     public function buscaArquivos() {
 
         // Verifica se o modo array está ativo
-        if ($this->modoArray === true) {
-
-            // Retorna a lista dos arquivos em modo array
-            return explode($this->modoSeparador, filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS));
-        }
-
+        #if ($this->modoArray === true) {
+        // Retorna a lista dos arquivos em modo array
+        return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
+        #}
         // Retorna o parâmetro padrão do arquivo (Ainda unido pelo @modoSeparador)
         return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
     }
@@ -217,21 +215,26 @@ class Compressao {
         /*
          * Inicia o laço de leitura individal por arquivo
          */
-        foreach ($this->_arquivoSepara() as $arquivo) {
+        if (is_array($this->_arquivoSepara())) {
 
-            // Verifica se o arquivo não existe
-            if (file_exists($this->_arquivoPasta($arquivo))) {
+            foreach ($this->_arquivoSepara() as $arquivo) {
 
-                /*
-                 * Função responsável pela abertura e leitura do arquivo informado
-                 */
-                $this->_arquivoLeitura($arquivo);
-            } else {
-                /*
-                 * Função responsável por definir o erro em formáto de comentátio no arquivo
-                 */
-                $this->_arquivoErro($arquivo);
+                // Verifica se o arquivo não existe
+                if (file_exists($this->_arquivoPasta($arquivo))) {
+
+                    /*
+                     * Função responsável pela abertura e leitura do arquivo informado
+                     */
+                    $this->_arquivoLeitura($arquivo);
+                } else {
+                    /*
+                     * Função responsável por definir o erro em formáto de comentátio no arquivo
+                     */
+                    $this->_arquivoErro('Erro ao incluir o arquivo:', $arquivo);
+                }
             }
+        } else {
+            $this->_arquivoErro('Modo array ativo. ', 'Nenhum arquivo passado');
         }
         /*
          * Função responsável por unir o conteúdo dos arquivos
@@ -300,10 +303,10 @@ class Compressao {
      * @param varchar $arquivo
      * @return void
      */
-    private function _arquivoErro($arquivo) {
+    private function _arquivoErro($erro, $arquivo) {
 
         // Define a resposta em comentário para o laço
-        $this->unificados[] = "\n/* \n * ERRO: Erro ao incluir o arquivo: '" . $arquivo . "' \n */ \n";
+        $this->unificados[] = "\n/* \n * ERRO: " . $erro . " '" . $arquivo . "' \n */ \n";
     }
 
     /**
