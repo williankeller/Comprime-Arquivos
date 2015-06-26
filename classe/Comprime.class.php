@@ -172,11 +172,6 @@ class Compressao {
      */
     public function buscaArquivos() {
 
-        // Verifica se o modo array está ativo
-        #if ($this->modoArray === true) {
-        // Retorna a lista dos arquivos em modo array
-        return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
-        #}
         // Retorna o parâmetro padrão do arquivo (Ainda unido pelo @modoSeparador)
         return filter_input(INPUT_GET, $this->buscaArquivos, FILTER_SANITIZE_SPECIAL_CHARS);
     }
@@ -198,11 +193,10 @@ class Compressao {
 
     /**
      * _arquivoConteudo()
-     * Função responsável por retornar a rota base do arquivo 
-     * incluindo a extenção passada pela @tipo
+     * Função responsável por tratar, definir e verificar a união e o conteúdo dos itens
+     * A função também é responsável pelo tratamento e retorno dos erros
      *
      * @function private
-     * @param varchar $arquivo (Arquivo passado na @entrada)
      * @return void
      */
     private function _arquivoConteudo() {
@@ -213,33 +207,55 @@ class Compressao {
         $this->_arquivoTipoConteudo();
 
         /*
-         * Inicia o laço de leitura individal por arquivo
+         * Verifica se o item está recendo um array
          */
         if (is_array($this->_arquivoSepara())) {
-
-            foreach ($this->_arquivoSepara() as $arquivo) {
-
-                // Verifica se o arquivo não existe
-                if (file_exists($this->_arquivoPasta($arquivo))) {
-
-                    /*
-                     * Função responsável pela abertura e leitura do arquivo informado
-                     */
-                    $this->_arquivoLeitura($arquivo);
-                } else {
-                    /*
-                     * Função responsável por definir o erro em formáto de comentátio no arquivo
-                     */
-                    $this->_arquivoErro('Erro ao incluir o arquivo:', $arquivo);
-                }
-            }
+            
+            /*
+             * Função responsável separar e ordenar os itens de entrada
+             */
+            $this->_arquivoMontaLista();
         } else {
+            /*
+             * Função responsável por definir o erro em formáto de comentário no arquivo
+             */
             $this->_arquivoErro('Modo array ativo. ', 'Nenhum arquivo passado');
         }
         /*
          * Função responsável por unir o conteúdo dos arquivos
          */
         $this->_arquivoUnifica();
+    }
+    
+    /**
+     * _arquivoMontaLista
+     * Função responsável separar e ordenar os itens de entrada
+     * A função verifica se o arquivo existe dentro do laço de indices
+     *
+     * @function private
+     * @return void
+     */
+    private function _arquivoMontaLista() {
+
+        /*
+         * Inicia o laço de leitura individal por arquivo
+         */
+        foreach ($this->_arquivoSepara() as $arquivo) {
+
+            // Verifica se o arquivo não existe
+            if (file_exists($this->_arquivoPasta($arquivo))) {
+
+                /*
+                 * Função responsável pela abertura e leitura do arquivo informado
+                 */
+                $this->_arquivoLeitura($arquivo);
+            } else {
+                /*
+                 * Função responsável por definir o erro em formáto de comentário no arquivo
+                 */
+                $this->_arquivoErro('Erro ao incluir o arquivo:', $arquivo);
+            }
+        }
     }
 
     /**
@@ -256,7 +272,7 @@ class Compressao {
             // Cria o header para leiura de css
             header('Content-type: text/css; charset=UTF-8');
         } else {
-            // cria do header para leitura de javascript
+            // Cria do header para leitura de javascript
             header('Content-Type: application/javascript');
         }
     }
@@ -297,7 +313,7 @@ class Compressao {
 
     /**
      * _arquivoErro()
-     * Função responsável por definir o erro em formato de comentátio no arquivo
+     * Função responsável por definir o erro em formato de comentário no arquivo
      *
      * @function private
      * @param varchar $arquivo
@@ -356,7 +372,7 @@ class Compressao {
         // Monta o laço dos arquivos
         foreach ($this->_arquivoSepara() as $arquivo) {
 
-            // recupera a data de criação do arquivo
+            // Recupera a data de criação do arquivo
             $tempo = filemtime($this->_arquivoPasta($arquivo));
 
             // Verifica o período de modificação
