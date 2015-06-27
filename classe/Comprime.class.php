@@ -71,9 +71,9 @@ class Compressao {
     public $arquivoComprime = true;
 
     /*
-     * Define se o termo do nome do arquivo para que ele seja ignorado (.min / min. / .minify)
+     * Ignora a compressão do arquivo passando o nome do arquivo ou um termo do nome.
      * @default ".min"
-     * @var $ignorar (varchar)
+     * @var $ignorar (array) ou (varchar)
      */
     public $ignorar = ".min";
 
@@ -203,7 +203,7 @@ class Compressao {
          * Verifica se o item está recendo um array
          */
         if (is_array($this->_arquivoSepara())) {
-            
+
             /*
              * Função responsável separar e ordenar os itens de entrada
              */
@@ -219,7 +219,7 @@ class Compressao {
          */
         $this->_arquivoUnifica();
     }
-    
+
     /**
      * _arquivoMontaLista
      * Função responsável separar e ordenar os itens de entrada
@@ -288,10 +288,10 @@ class Compressao {
 
         /*
          * Verifica se o arquivo permite a compressão
-         * Definição feita em "$this->ignorar"
+         * Função responsável por encontrar os arquivos que devem ser ignorados
          * Caso o nome do arquivo contenha esse valor, a compressão será ignorada
          */
-        if (strpos(basename($arquivo), $this->ignorar) === false) {
+        if ($this->_strpos(basename($arquivo), $this->ignorar, 1) === false) {
 
             /*
              * Executa a função responsável pela compressão do conteúdo do arquivo
@@ -302,6 +302,46 @@ class Compressao {
          * Define o conteúdo em laço preparado para ser unificado
          */
         $this->unificados[] = $this->conteudo;
+    }
+    
+    /**
+     * _strpos()
+     * Função responsável por encontrar os arquivos que devem ser ignorados
+     * Caso o arquivo contenha a expressão, a compressão será ignorada
+     *
+     * @function private
+     * @param varchar $arquivo
+     * @param varchar / array $ignorar
+     * @param int $offset
+     * @return boolean
+     */
+    private function _strpos($arquivo, $ignorar, $offset = 0) {
+        
+        // Verifica se é um array
+        if (is_array($ignorar)) {
+            
+            // Inicia o laço dos indices
+            foreach ($ignorar as $ignora) {
+                
+                /*
+                 * Reinicia a função
+                 * Caso o arquivo contenha a expressão, a compressão será ignorada
+                 */
+                $pos = $this->_strpos($arquivo, $ignora);
+                
+                // Caso não exista mais expressão
+                if ($pos !== false) {
+                    
+                    // Retorna a posição
+                    return $pos;
+                }
+            }
+            // Retorna caso o indice não seja encontrado
+            return false;
+        } else {
+            // Retorna se o indice for encontrado
+            return strpos($arquivo, $ignorar, $offset);
+        }
     }
 
     /**

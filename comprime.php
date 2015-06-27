@@ -21,13 +21,12 @@ require_once('classe/Comprime.class.php');
  */
 $compressao = new Compressao();
 
-
 /*
  * Pasta padrão dos arquivos da @entrada
  * @default recursos/
  * @var $pasta (varchar)
  */
-$compressao->pasta = "/projetos/Comprime-Arquivos/recursos/";
+$compressao->pasta = "/Comprime-Arquivos/recursos/";
 
 /*
  * Nome do parâmetro que será resgatado da URL para identificar o tipo do arquivo
@@ -52,16 +51,31 @@ $compressao->buscaArquivos = "arquivos";
 $compressao->arquivoComprime = true;
 
 /*
- * Define se o termo do nome do arquivo para que ele seja ignorado
+ * Ignora a compressão do arquivo 
+ * passando o nome do arquivo ou um termo do nome.
+ * 
+ * NOTA: Usado somente se a variável "arquivoComprime" estiver ativa 
+ * 
  * @default ".min"
- * @uses .min / min. / .minify
- * @var $ignorar (varchar)
+ * @uses .min / min. / .minify / nome-do-arquivo
+ * @var $ignorar (array) ou (varchar)
  */
-$compressao->ignorar = '.min';
+/*
+ * Vários valores podem ser passados no modo array
+ */
+$compressao->ignorar = array('.min','exemplo');
+
+/*
+ * Apenas um valor pode ser passado no modo varchar
+ */
+#$compressao->ignorar = '.min';
 
 /*
  * Define o modo de separação dos arquivos da @entrada
+ * 
  * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
+ * NOTA: Usado somente no padrão sem array
+ * 
  * @default ";"
  * @uses ; / , / *
  * @var $modoSeparador (varchar)
@@ -78,6 +92,9 @@ $compressao->cacheavel = false;
 
 /*
  * Define o tempo de vida do Cache (em segundo)
+ * 
+ * NOTA: Usado somente se a variável "cacheavel" estiver ativa
+ * 
  * @default 604800
  * @var $cache (int)
  */

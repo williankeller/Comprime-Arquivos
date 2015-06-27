@@ -7,6 +7,7 @@ $compressao = new Compressao();
 
 ##A função `incluir()`
 A função `incluir()` é a responsável pelo retorno no conteúdo que deseja-se unificar e/ou comprimir.
+
 Obrigatóriamente ele precisa receber dois valores como parâmetro.
 * TIPO_DE_ARQUIVO ***(Recebe apenas `varchar`)***
 * LISTA_DE_ARQUIVOS ***(Pode receber tanto `array` quanto `varchar`)***
@@ -42,7 +43,7 @@ A função `buscaArquivos()` será responsável por recuperar o valor passado pe
 
 #Definições Opcionais de Uso
 
-###Definindo a pasta padrão dos arquivo de entrada ***(opcional)***
+###Definindo a pasta padrão dos arquivo de entrada
 ```php
 /*
  * @default recursos/
@@ -51,7 +52,7 @@ A função `buscaArquivos()` será responsável por recuperar o valor passado pe
 $compressao->pasta = "/projetos/recursos/";
 ```
 
-###Definindo o nome do parâmetro na URL para identificar o tipo do arquivo ***(opcional)***
+###Definindo o nome do parâmetro na URL para identificar o tipo do arquivo
 ```php
 /*
  * @default "tipo"
@@ -60,7 +61,7 @@ $compressao->pasta = "/projetos/recursos/";
 $compressao->buscaTipo = "tipo";
 ```
 
-###Definindo o nome do parâmetro na URL para identificar os arquivos ***(opcional)***
+###Definindo o nome do parâmetro na URL para identificar os arquivos
 ```php
 /*
  * @default "arquivos"
@@ -69,7 +70,7 @@ $compressao->buscaTipo = "tipo";
 $compressao->buscaArquivos = "arquivos";
 ```
 
-###Definindo se o conteúdo deve ou não ser comprimido ***(opcional)***
+###Definindo se o conteúdo deve ou não ser comprimido
 ```php
 /*
  * @default true
@@ -79,20 +80,31 @@ $compressao->buscaArquivos = "arquivos";
 $compressao->arquivoComprime = true;
 ```
 
-###Definindo o termo no arquivo para que ele seja ignorado ***(opcional)***
+###Ignora a compressão do arquivo passando o nome do arquivo ou um termo do nome.
+***NOTA: Usado somente se a variável `$arquivoComprime` estiver ativa***
 ```php
 /*
  * @default ".min"
- * @uses .min / min. / .minify
- * @var $ignorar (varchar)
+ * @uses .min / min. / .minify / nome-do-arquivo
+ * @var $ignorar (array) ou (varchar)
  */
-$compressao->ignorar = '.min';
+
+/*
+ * Vários valores podem ser passados no modo array
+ */
+$compressao->ignorar = array('.min','exemplo');
+
+/*
+ * Apenas um valor pode ser passado no modo varchar
+ */
+#$compressao->ignorar = '.min';
 ```
 
-###Definindo o modo de separação dos arquivos ***(opcional)***
+###Definindo o modo de separação dos arquivos
+***NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores***
+***NOTA: Usado somente no padrão sem array***
 ```php
 /*
- * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
  * @default ";"
  * @uses ; / , / *
  * @var $modoSeparador (varchar)
@@ -100,7 +112,7 @@ $compressao->ignorar = '.min';
 $compressao->modoSeparador = ";";
 ```
 
-###Definindo se o retorno deve ser cacheado em `browser` ou não ***(opcional)***
+###Definindo se o retorno deve ser cacheado em `browser` ou não
 ```php
 /*
  * @default false
@@ -110,7 +122,8 @@ $compressao->modoSeparador = ";";
 $compressao->cacheavel = false;
 ```
 
-###Definindo o tempo de vida do Cache (em segundo) ***(opcional)***
+###Definindo o tempo de vida do Cache (em segundo)
+***NOTA: Usado somente se a variável `$cacheavel` estiver ativa***
 ```php
 /*
  * @default 604800
