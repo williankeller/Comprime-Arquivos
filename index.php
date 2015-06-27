@@ -21,6 +21,7 @@
         <link href="comprime/css/css/bootstrap;css/exemplo" rel="stylesheet" type="text/css">
         <script>console.timeEnd("CSS:");</script>
     </head>
+    
     <body>
         <div class="container">
             <div class="row">

@@ -2,7 +2,6 @@
  * Arquivo de exemplo 
  * Execução de leitura
  */
-
 (function ($) {
 
     var m_a = $('.minha-area'), url = '/' + '/';
