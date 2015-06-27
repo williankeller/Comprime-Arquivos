@@ -132,6 +132,5 @@ $compressao->cacheavel = false;
 $compressao->cache = 604800;
 ```
 
-
 ## Contato
 Se precisar entrar em contato, will_levinski@hotmail.com ou n3p0rb1t@gmail.com

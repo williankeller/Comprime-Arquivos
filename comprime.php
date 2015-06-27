@@ -60,6 +60,7 @@ $compressao->arquivoComprime = true;
  * @uses .min / min. / .minify / nome-do-arquivo
  * @var $ignorar (array) ou (varchar)
  */
+
 /*
  * Vários valores podem ser passados no modo array
  */
