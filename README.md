@@ -5,14 +5,25 @@
 $compressao = new Compressao();
 ```
 
+##A função `incluir()`
+A função `incluir()` é a responsável pelo retorno no conteúdo que deseja-se unificar e/ou comprimir.
+Obrigatóriamente ele precisa receber dois valores como parâmetro.
+* TIPO_DE_ARQUIVO ***(Recebe apenas `varchar`)***
+* LISTA_DE_ARQUIVOS ***(Pode receber tanto `array` quanto `varchar`)***
+
+A aplicação deve ser feita da seguinte forma:
+```php
+$compressao->incluir(TIPO_DE_ARQUIVO, LISTA_DE_ARQUIVOS);
+```
+
 ##Imprimindo o conteúdo inline
-Incluindo arquivos JavaScript usando `array`
+Incluindo arquivos JavaScript usando o método de entrada em `Array`
 ```php
 $compressao->incluir('js', array('js/jquery.min', 'js/exemplo'));
 ```
 
 ##Imprimindo o conteúdo inline
-Incluindo arquivos JavaScript usando `string`
+Incluindo arquivos CSS usando o método de entrada em `String Char`
 ```php
 $compressao->incluir('css', 'css/bootstrap;css/exemplo');
 ```
@@ -76,16 +87,6 @@ $compressao->arquivoComprime = true;
  * @var $ignorar (varchar)
  */
 $compressao->ignorar = '.min';
-```
-
-###Definindo se a entrada deve ser do tipo `array` ou `varchar` ***(opcional)***
-```php
-/*
- * @default true
- * @uses true / false
- * @var $modoArray (boolean varchar)
- */
-$compressao->modoArray = true;
 ```
 
 ###Definindo o modo de separação dos arquivos ***(opcional)***
