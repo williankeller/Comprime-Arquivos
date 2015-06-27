@@ -60,14 +60,6 @@ $compressao->arquivoComprime = true;
 $compressao->ignorar = '.min';
 
 /*
- * Define se o valor da entrada deve ser do tipo array ou varchar
- * @default true
- * @uses true / false
- * @var $modoArray (boolean varchar)
- */
-$compressao->modoArray = false;
-
-/*
  * Define o modo de separação dos arquivos da @entrada
  * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
  * @default ";"

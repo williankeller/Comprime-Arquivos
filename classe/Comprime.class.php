@@ -78,13 +78,6 @@ class Compressao {
     public $ignorar = ".min";
 
     /*
-     * Define se o valor da entrada deve ser do tipo array ou varchar (true / false)
-     * @default true
-     * @var $modoArray (boolean varchar)
-     */
-    public $modoArray = true;
-
-    /*
      * Define o modo de separação dos arquivos da @entrada (; / , / *)
      * NOTA: Não usar ponto (.) a classe o interpreta para definir outros valores
      * @default ";"
@@ -328,7 +321,7 @@ class Compressao {
     /**
      * _arquivoSepara()
      * Função verifica se o modo é array
-     * Caso seja, retorna valor padrão
+     * Caso seja, retorna valor padrão "em array"
      * Se não ela separa usando a base @modoSeparador
      *
      * @function private
@@ -337,7 +330,7 @@ class Compressao {
     private function _arquivoSepara() {
 
         // Verifica se o modo array está ativo
-        if ($this->modoArray === true) {
+        if (is_array($this->entrada)) {
 
             // Retorna valor padrão
             return $this->entrada;
